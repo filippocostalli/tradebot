@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  * @Disable – disables a test class or method (previously @Ignore)
  * 
  * Assertions have been moved to org.junit.jupiter.api.Assertions, and have been significantly improved. As mentioned earlier, we can now use lambdas in assertions
- */
+ */ 
 
 @DisplayName("Test Oanda v20 REST Api Client")
 @Slf4j
