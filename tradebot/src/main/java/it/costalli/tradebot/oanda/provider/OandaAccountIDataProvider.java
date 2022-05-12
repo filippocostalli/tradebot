@@ -16,11 +16,11 @@ import com.pivovarit.function.ThrowingFunction;
 
 import it.costalli.tradebot.exception.TradeException;
 import it.costalli.tradebot.model.Account;
-import it.costalli.tradebot.provider.AccountInfoProvider;
+import it.costalli.tradebot.provider.AccountDataProvider;
 
 
 @Service
-public class OandaAccountInfoProvider implements AccountInfoProvider<String>{
+public class OandaAccountIDataProvider implements AccountDataProvider<String>{
 	
 	@Autowired
 	Context oandaContext;

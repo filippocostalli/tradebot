@@ -5,7 +5,7 @@ import java.util.List;
 import it.costalli.tradebot.exception.TradeException;
 import it.costalli.tradebot.model.Account;
 
-public interface AccountInfoProvider<T> {
+public interface AccountDataProvider<T> {
 
 	
 	/**
