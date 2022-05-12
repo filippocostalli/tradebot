@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.oanda.v20.Context;
 import com.oanda.v20.account.AccountID;
@@ -19,7 +19,7 @@ import it.costalli.tradebot.model.Account;
 import it.costalli.tradebot.provider.AccountDataProvider;
 
 
-@Service
+@Component
 public class OandaAccountIDataProvider implements AccountDataProvider<String>{
 	
 	@Autowired
