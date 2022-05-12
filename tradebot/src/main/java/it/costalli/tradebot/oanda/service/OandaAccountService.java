@@ -1,13 +1,20 @@
 package it.costalli.tradebot.oanda.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oanda.v20.Context;
 import com.oanda.v20.account.AccountID;
+import com.oanda.v20.account.AccountListResponse;
+import com.oanda.v20.account.AccountProperties;
 import com.oanda.v20.account.AccountSummary;
+import com.pivovarit.function.ThrowingFunction;
 
 import it.costalli.tradebot.exception.TradeException;
 import it.costalli.tradebot.model.Account;
@@ -61,8 +68,16 @@ public class OandaAccountService implements AccountService<String>{
 
 	@Override
 	public List<Account<String>> getLatestAccountInfo()  throws TradeException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AccountListResponse response = oandaContext.account.list();
+		List<AccountProperties> accountProperties = response.getAccounts();
+		List<Account<String>> accounts = accountProperties
+				.stream()
+				.map(x -> x.getId().toString())
+				.map(ThrowingFunction.unchecked(x -> this.getLatestAccountInfo(x)))
+				.collect(Collectors.toList());
+		
+		return accounts;
 	}
 	
 	
