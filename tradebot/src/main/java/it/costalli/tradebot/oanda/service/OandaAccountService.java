@@ -43,7 +43,7 @@ public class OandaAccountService implements AccountService<String>{
 					accountBalance, 
 					accountUnrealizedPnl, 
 					accountRealizedPnl,
-					accountMarginUsed, 
+					accountMarginUsed,  
 					accountMarginAvailable, 
 					accountNetAssetValue,
 					accountOpenTrades, 
