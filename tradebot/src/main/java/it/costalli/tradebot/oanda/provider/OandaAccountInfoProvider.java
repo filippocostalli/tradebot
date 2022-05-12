@@ -41,7 +41,7 @@ public class OandaAccountInfoProvider implements AccountInfoProvider<String>{
 			final String accountBaseCurrency = accountSummary.getCurrency().toString();
 			final double accountLeverage = accountSummary.getMarginRate().doubleValue();
 			
-			double accountNetAssetValue = accountMarginUsed + accountMarginAvailable;
+			final double accountNetAssetValue = accountMarginUsed + accountMarginAvailable;
 			final double accountAmountAvailableRatio = accountMarginAvailable / accountBalance;
 		
 			account = new Account<String>(
