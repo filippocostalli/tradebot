@@ -1,4 +1,4 @@
-package it.costalli.tradebot.config;
+package it.costalli.tradebot.oanda.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.oanda.v20.Context;
 import com.oanda.v20.ContextBuilder;
-//import com.oanda.v20.ContextBuilder;
 
 @Configuration
 @PropertySource({"classpath:oanda.properties"})
@@ -26,7 +25,6 @@ public class OandaProviderConfig {
 	
 	@Bean(name = "oandaContext", destroyMethod = "")
 	public Context oandaContext() throws Exception {
-		
 		
 		Context ctx = new ContextBuilder(oandaUrl)
         		.setToken(oandaToken)
