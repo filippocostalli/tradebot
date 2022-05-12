@@ -1,11 +1,11 @@
-package it.costalli.tradebot.service;
+package it.costalli.tradebot.provider;
 
 import java.util.List;
 
 import it.costalli.tradebot.exception.TradeException;
 import it.costalli.tradebot.model.Account;
 
-public interface AccountService<T> {
+public interface AccountInfoProvider<T> {
 
 	
 	/**

@@ -1,7 +1,5 @@
-package it.costalli.tradebot.oanda.service;
+package it.costalli.tradebot.oanda.provider;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +16,11 @@ import com.pivovarit.function.ThrowingFunction;
 
 import it.costalli.tradebot.exception.TradeException;
 import it.costalli.tradebot.model.Account;
-import it.costalli.tradebot.service.AccountService;
+import it.costalli.tradebot.provider.AccountInfoProvider;
 
 
 @Service
-public class OandaAccountService implements AccountService<String>{
+public class OandaAccountInfoProvider implements AccountInfoProvider<String>{
 	
 	@Autowired
 	Context oandaContext;
@@ -59,10 +57,6 @@ public class OandaAccountService implements AccountService<String>{
 					accountAmountAvailableRatio,
 					accountLeverage);
 		}
-		else {
-			throw new TradeException("No account retrieved for id = " + accountId);
-		}
-		
 		return account;
 	}
 
@@ -79,8 +73,5 @@ public class OandaAccountService implements AccountService<String>{
 		
 		return accounts;
 	}
-	
-	
-	
 
 }
