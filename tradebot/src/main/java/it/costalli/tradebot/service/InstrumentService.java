@@ -10,7 +10,7 @@ public interface InstrumentService<T> {
 	
 	List<TradeableInstrument<T>> getInstruments(Account<T> account) throws TradeException, Exception;
 
-	List<TradeableInstrument<T>> getAllPairsWithCurrency(String currency) throws TradeException, Exception;
+	List<TradeableInstrument<T>> getAllPairsWithCurrency(Account<T> account, String currency) throws TradeException, Exception;
 
-	public Double getPipForInstrument(TradeableInstrument<T> instrument) throws TradeException, Exception;
+	public Double getPipForInstrument(Account<T> account, TradeableInstrument<T> instrument) throws TradeException, Exception;
 }

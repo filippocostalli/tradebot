@@ -1,6 +1,7 @@
 package it.costalli.tradebot.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -18,6 +19,7 @@ public class InstrumentService_Impl<T> implements InstrumentService<T> {
 	@Autowired
 	InstrumentDataProvider<T> instrumentDataProvider;
 	
+	
 
 	@Cacheable(value = "accountInstruments", key = "#account.accountId", sync = true)
 	@Override
@@ -25,16 +27,24 @@ public class InstrumentService_Impl<T> implements InstrumentService<T> {
 		return instrumentDataProvider.getInstruments(account);
 	}
 
+	
 	@Override
-	public List<TradeableInstrument<T>> getAllPairsWithCurrency(String currency) throws TradeException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TradeableInstrument<T>> getAllPairsWithCurrency(Account<T> account, String currency) throws TradeException, Exception {
+		return this.getInstruments(account)
+				.stream()
+				.filter(x -> x.getInstrumentName().contains(currency))
+				.collect(Collectors.toList());
 	}
+	
 
 	@Override
-	public Double getPipForInstrument(TradeableInstrument<T> instrument) throws TradeException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Double getPipForInstrument(Account<T> account, TradeableInstrument<T> instrument) throws TradeException, Exception {
+		TradeableInstrument<T> accountInstrument = this.getInstruments(account)
+				.stream()
+				.filter(x -> x.getInstrumentName().equals(instrument.getInstrumentName()))
+				.findFirst()
+                .orElse(null);
+		return (accountInstrument != null)?accountInstrument.getPip():0.1;
 	}
 
 }

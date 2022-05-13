@@ -10,7 +10,7 @@ import lombok.Data;
 public class TradeableInstrument<T> {
 	
 	@NotNull
-	private final String instrument;
+	private final String instrumentName;
 	
 	/**
 	 * Represents an internal identifier for that instrument on the given platform.
