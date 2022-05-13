@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import it.costalli.tradebot.config.BaseTradingConfig;
 import it.costalli.tradebot.exception.TradeException;
 import it.costalli.tradebot.model.Account;
+import it.costalli.tradebot.model.TradeableInstrument;
 import it.costalli.tradebot.provider.AccountDataProvider;
 import it.costalli.tradebot.utils.comparator.MarginAvailableComparator;
 
@@ -21,9 +22,6 @@ public class AccountInfoService_Impl<K, N> implements AccountInfoService<K, N> {
 	@Autowired
 	AccountDataProvider<K> accountDataProvider;
 	
-	/**
-	 * Object that holds all the configuration parameters.
-	 */
 	@Autowired
 	BaseTradingConfig baseTradingConfig;
 	
@@ -46,6 +44,18 @@ public class AccountInfoService_Impl<K, N> implements AccountInfoService<K, N> {
 				.map(x -> x.getAccountId())
 				.collect(Collectors.toList());
 		return accountsFound;
+	}
+
+	@Override
+	public double calculateMarginForTrade(Account<K> accountInfo, TradeableInstrument<N> instrument, int units) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double calculateMarginForTrade(K accountId, TradeableInstrument<N> instrument, int units) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

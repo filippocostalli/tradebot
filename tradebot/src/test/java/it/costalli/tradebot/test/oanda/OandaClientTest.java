@@ -20,6 +20,7 @@ import com.oanda.v20.account.AccountID;
 import com.oanda.v20.account.AccountListResponse;
 import com.oanda.v20.account.AccountProperties;
 import com.oanda.v20.account.AccountSummary;
+import com.oanda.v20.primitives.Instrument;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,13 +81,34 @@ class OandaClientTest {
 			log.info(accountProps.getId().toString());
 
 			AccountID accountID = new AccountID("101-012-22250783-001");
-			AccountSummary accountSummary = oandaContext.account.summary(accountID).getAccount();
+			AccountSummary accountSummary = oandaContext.account.summary(accountID).getAccount(); //
 			assertNotNull(accountSummary);
 			log.info(accountSummary.toString());
-			log.info("" + accountSummary.getMarginAvailable().bigDecimalValue());
+			//log.info("" + accountSummary.getMarginAvailable().bigDecimalValue());
 		}
 		catch (Exception e) {
 			log.error("test001_getAccountSummary", e);
+			fail (e.getMessage());
+		}
+	}
+	
+	@Test
+	void test002_getTreadableInstrument() {
+		try {
+			assertNotNull(oandaContext);
+			
+
+			AccountID accountID = new AccountID("101-012-22250783-001");
+			List<Instrument> instruments = oandaContext.account.instruments(accountID).getInstruments();
+			assertNotNull(instruments);
+			assertTrue(instruments.size() > 0);
+			for (Instrument instrument : instruments) {
+				log.info(instrument.toString());
+			}
+			
+		}
+		catch (Exception e) {
+			log.error("test002_getTreadableInstrument", e);
 			fail (e.getMessage());
 		}
 	}
