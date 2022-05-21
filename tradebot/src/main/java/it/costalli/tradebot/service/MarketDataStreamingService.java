@@ -1,5 +1,10 @@
 package it.costalli.tradebot.service;
 
+import java.util.Collection;
+
+import it.costalli.tradebot.model.Account;
+import it.costalli.tradebot.model.TradeableInstrument;
+
 /**
  * A service that provides streaming market data. Normally the implementation
  * would create a dedicated connection to the trading platform and would receive
@@ -16,14 +21,14 @@ package it.costalli.tradebot.service;
  * @author Shekhar Varshney
  *
  */
-public interface MarketDataStreamingService {
+public interface MarketDataStreamingService<T> {
 
 	/**
 	 * Start the streaming service which would ideally create a dedicated connection
 	 * to the platform or a callback listener. Ideally multiple connections
 	 * requesting the same market data should not be created.
 	 */
-	void startMarketDataStreaming();
+	void startMarketDataStreaming(Account<T> account, Collection<TradeableInstrument<T>> instruments, MarketEventCallback<T> marketEventCallback);
 
 	/**
 	 * Stop the streaming services and dispose any resources/connections in a

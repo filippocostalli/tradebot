@@ -2,8 +2,11 @@ package it.costalli.tradebot.test.oanda;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,10 @@ import com.oanda.v20.account.AccountID;
 import com.oanda.v20.account.AccountListResponse;
 import com.oanda.v20.account.AccountProperties;
 import com.oanda.v20.account.AccountSummary;
+import com.oanda.v20.pricing.ClientPrice;
+import com.oanda.v20.pricing.PricingGetRequest;
+import com.oanda.v20.pricing.PricingGetResponse;
+import com.oanda.v20.primitives.DateTime;
 import com.oanda.v20.primitives.Instrument;
 
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +72,7 @@ class OandaClientTest {
 	@Autowired
 	Context oandaContext;
 
+	@Disabled
 	@Test
 	void test001_getAccountSummary() {
 		try {
@@ -92,6 +100,7 @@ class OandaClientTest {
 		}
 	}
 	
+	@Disabled
 	@Test
 	void test002_getTreadableInstrument() {
 		try {
@@ -105,6 +114,35 @@ class OandaClientTest {
 			for (Instrument instrument : instruments) {
 				log.info(instrument.toString());
 			}
+			
+		}
+		catch (Exception e) {
+			log.error("test002_getTreadableInstrument", e);
+			fail (e.getMessage());
+		}
+	}
+	
+	@Test
+	void test003_getPrices() {
+		try {
+			assertNotNull(oandaContext);
+			
+			AccountID accountID = new AccountID("101-012-22250783-001"); 
+			List<String> instruments = new ArrayList<>( Arrays.asList("EUR_USD", "USD_JPY", "GBP_USD", "USD_CHF"));
+			
+			PricingGetRequest request = new PricingGetRequest(accountID, instruments);
+			PricingGetResponse response = oandaContext.pricing.get(request);
+			assertNotNull(response);
+			
+			for (ClientPrice price : response.getPrices()) { 
+				log.info(price.toString());
+			}
+                
+            
+			DateTime since = response.getTime();
+			log.info("Since: " + since.toString());
+			 
+			 
 			
 		}
 		catch (Exception e) {
