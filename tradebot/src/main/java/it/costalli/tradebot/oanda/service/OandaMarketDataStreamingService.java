@@ -20,7 +20,7 @@ import it.costalli.tradebot.service.MarketEventCallback;
 public class OandaMarketDataStreamingService implements MarketDataStreamingService<String> {
 
 	@Autowired
-	OandaPriceStreamingService oandaPriceStreamingService;
+	OandaPricePollingService oandaPriceStreamingService;
 
 
 	@Override

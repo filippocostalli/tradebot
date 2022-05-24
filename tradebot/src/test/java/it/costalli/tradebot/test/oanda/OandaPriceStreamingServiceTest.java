@@ -2,6 +2,7 @@ package it.costalli.tradebot.test.oanda;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
@@ -18,10 +19,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import it.costalli.tradebot.oanda.model.commons.CurrencyPair;
+import it.costalli.tradebot.oanda.model.stream.Price;
 import it.costalli.tradebot.oanda.model.stream.PriceStreamMessage;
+import it.costalli.tradebot.oanda.model.stream.PricingHeartbeat;
 import it.costalli.tradebot.oanda.service.OandaPriceStreamingServiceFlux;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 @DisplayName("Test Oanda v20 REST Api Client Price Stream")
 @Slf4j
@@ -37,23 +41,73 @@ class OandaPriceStreamingServiceTest {
 	@Test
 	void test001_getFluxStream() {
 		try {
+			/*
 			List<String> fava = new ArrayList<String>();
-			
 			Flux.just("A", "B", "C", "D")
 			.log()
 			.subscribe( fava::add);
+			*/
+			
+			
+			
 			
 			String accountId = "101-012-22250783-001"; 
 			
-			Flux<PriceStreamMessage> flux =
-					oandaPriceStreamingServiceFlux.get(
+			Flux<String> flux =
+					oandaPriceStreamingServiceFlux.getFluxStringTimeout(
 							accountId,
 							Arrays.asList(new CurrencyPair(Currency.getInstance("EUR"), Currency.getInstance("GBP"))),
 							true);
 			
-			assertNotNull(flux);
-	        Flux<PriceStreamMessage> fivePrices = flux.take(5);
-	        fivePrices.toStream().forEach(x -> log.info(x.toString()));
+			StepVerifier.create(flux)
+	        .assertNext(
+	            message -> {
+	              assertNotNull(message);
+	            
+	            })
+	        .assertNext(
+        		 message -> {
+   	              assertNotNull(message);
+   	              
+   	            })
+	        .assertNext(
+        		 message -> {
+   	              assertNotNull(message);
+   	              
+   	            })
+	        .assertNext(
+        		 message -> {
+   	              assertNotNull(message);
+   	             
+   	            })
+	        .assertNext(
+	            message -> {
+	            	assertNotNull(message);
+	            	assertTrue(message.contains("HEARTBEAT"));
+	            })
+	        .assertNext(
+		            message -> {
+		            	assertNotNull(message);
+		            })
+	        .assertNext(
+		            message -> {
+		            	assertNotNull(message);
+		            })
+	        .assertNext(
+		            message -> {
+		            	assertNotNull(message);
+		            })
+	        .assertNext(
+		            message -> {
+		            	assertNotNull(message);
+		            })
+	        .expectComplete()
+	        .verify(Duration.ofSeconds(20));
+			
+			
+			
+	        //Flux<PriceStreamMessage> fivePrices = flux.take(5);
+	        //fivePrices.toStream().forEach(x -> log.info(x.toString()));
 			
 		}
 		catch (Exception ex) {
