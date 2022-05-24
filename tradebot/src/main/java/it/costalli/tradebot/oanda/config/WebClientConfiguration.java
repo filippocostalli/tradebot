@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.google.common.net.HttpHeaders;
 
 @Configuration
-@PropertySource({"classpath:oanda.properties"})
+@PropertySource({"classpath:oanda-${spring.profiles.active}.properties"})
 public class WebClientConfiguration {
 	
 	@Value("${oanda.apitoken}")

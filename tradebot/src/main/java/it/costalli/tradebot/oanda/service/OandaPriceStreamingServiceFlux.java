@@ -37,6 +37,12 @@ public class OandaPriceStreamingServiceFlux {
 	    
 		String streamEndpoint = new MessageFormat("/v3/accounts/{0}/pricing/stream").format(new Object[] {accountId});
 		
+		Object[] instrumentsParam =  instruments
+				.stream()
+				.map(instrument ->CurrencyPairFormat.format(instrument, CurrencyPairFormat.OANDA_FORMAT))
+                .collect(Collectors.toList())
+                .toArray();
+		
 	    return oandaStreamWebClient
 	        .get()
 	        .uri(
@@ -44,12 +50,7 @@ public class OandaPriceStreamingServiceFlux {
 	                builder
 	                    .path(streamEndpoint)
 	                    //.queryParam("snapshot", true)
-	                    .queryParam(
-	                        "instruments",
-	                        instruments.stream()
-	                            .map(instrument ->CurrencyPairFormat.format(instrument, CurrencyPairFormat.OANDA_FORMAT))
-	                            .collect(Collectors.toList())
-	                            .toArray())
+	                    .queryParam("instruments", instrumentsParam)
 	                    .build())
 	        .retrieve()
 	        .bodyToFlux(PriceStreamMessage.class)

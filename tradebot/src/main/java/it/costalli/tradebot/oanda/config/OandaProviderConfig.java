@@ -9,7 +9,7 @@ import com.oanda.v20.Context;
 import com.oanda.v20.ContextBuilder;
 
 @Configuration
-@PropertySource({"classpath:oanda.properties"})
+@PropertySource({"classpath:oanda-${spring.profiles.active}.properties"})
 public class OandaProviderConfig {
 	
 	@Value("${oanda.apitoken}")
