@@ -1,7 +1,7 @@
 package it.costalli.tradebot.oanda.service;
 
 import java.text.MessageFormat;
-import java.time.Duration;
+//import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +22,9 @@ public class OandaPriceStreamingServiceFlux {
 	
 	@Autowired
 	WebClient oandaStreamWebClient;
+	
+	@Autowired
+	WebClient oandaStreamTimeoutWebClient;
 
 	 
 	private final ServerResponseValidator validator = new ServerResponseValidator();
@@ -56,10 +59,10 @@ public class OandaPriceStreamingServiceFlux {
 	        .bodyToFlux(PriceStreamMessage.class)
 	        .doOnNext(
 	            price -> {
-	              if (validate) {
-	            	  log.info("Valido");
-	                validator.validate(price);
-	              }
+	              //if (validate) {
+	            	  log.info("Valido" + price.toString());
+	                //validator.validate(price);
+	             // }
 	            });
 	  }
 	
@@ -90,11 +93,11 @@ public class OandaPriceStreamingServiceFlux {
 	            });
 	  }
 	
-public Flux<String> getFluxStringTimeout(String accountId, List<CurrencyPair> instruments, boolean validate) {
+	public Flux<String> getFluxStringTimeout(String accountId, List<CurrencyPair> instruments, boolean validate) {
 	    
 		String streamEndpoint = new MessageFormat("/v3/accounts/{0}/pricing/stream").format(new Object[] {accountId});
 		
-	    return oandaStreamWebClient
+	    return oandaStreamTimeoutWebClient
 	        .get()
 	        .uri(
 	            builder ->
@@ -110,9 +113,6 @@ public Flux<String> getFluxStringTimeout(String accountId, List<CurrencyPair> in
 	                    .build())
 	        .retrieve()
 	        .bodyToFlux(String.class)
-	        //.timeout(Duration.ofMillis(1000))
-            //.retry(2)
-            //.onErrorReturn("default")
 	        .doOnNext(
 	            price -> {
 	            	  log.info("Valido " + price);

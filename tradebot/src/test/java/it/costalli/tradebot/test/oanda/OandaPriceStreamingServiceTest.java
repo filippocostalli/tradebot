@@ -3,10 +3,8 @@ package it.costalli.tradebot.test.oanda;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
-import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -18,10 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+
 import it.costalli.tradebot.oanda.model.commons.CurrencyPair;
-import it.costalli.tradebot.oanda.model.stream.Price;
-import it.costalli.tradebot.oanda.model.stream.PriceStreamMessage;
-import it.costalli.tradebot.oanda.model.stream.PricingHeartbeat;
 import it.costalli.tradebot.oanda.service.OandaPriceStreamingServiceFlux;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -37,6 +33,8 @@ class OandaPriceStreamingServiceTest {
 	
 	@Autowired
 	OandaPriceStreamingServiceFlux oandaPriceStreamingServiceFlux;
+	
+	
 
 	@Test
 	void test001_getFluxStream() {
@@ -54,7 +52,7 @@ class OandaPriceStreamingServiceTest {
 			String accountId = "101-012-22250783-001"; 
 			
 			Flux<String> flux =
-					oandaPriceStreamingServiceFlux.getFluxStringTimeout(
+					oandaPriceStreamingServiceFlux.getFluxString(
 							accountId,
 							Arrays.asList(new CurrencyPair(Currency.getInstance("EUR"), Currency.getInstance("GBP"))),
 							true);
@@ -81,11 +79,6 @@ class OandaPriceStreamingServiceTest {
    	             
    	            })
 	        .assertNext(
-	            message -> {
-	            	assertNotNull(message);
-	            	assertTrue(message.contains("HEARTBEAT"));
-	            })
-	        .assertNext(
 		            message -> {
 		            	assertNotNull(message);
 		            })
@@ -102,7 +95,9 @@ class OandaPriceStreamingServiceTest {
 		            	assertNotNull(message);
 		            })
 	        .expectComplete()
-	        .verify(Duration.ofSeconds(20));
+	        .verify(Duration.ofSeconds(50));
+			
+			
 			
 			
 			
